@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Review a company or job offer for common scam warning signs.">
+  <title>VeriRadar — Company and Job Check</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="VeriRadar home">
+      <span class="brand-mark" aria-hidden="true">V</span>
+      <span class="brand-name">VeriRadar</span>
+      <span class="brand-tagline">OFFER CHECK</span>
+    </a>
+    <nav class="site-links" aria-label="Main navigation">
+      <a href="index.html">Link Check</a>
+      <a href="company-check.html" aria-current="page">Company &amp; Job Check</a>
+    </nav>
+    <p class="header-note">
+      <span class="status-dot" aria-hidden="true"></span>
+      Clear answers. Safer choices.
+    </p>
+  </header>
+
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">CHECK BEFORE YOU TRUST AN OFFER</p>
+      <h1 id="page-title">Check a company or offer</h1>
+      <p class="hero-copy">
+        Review a company name, job link, or offer message for common warning
+        signs before you share money or personal information.
+      </p>
+
+      <form id="job-form" class="scan-card job-form">
+        <label for="company">Company name <span>(optional)</span></label>
+        <input id="company" name="company" autocomplete="organization" placeholder="Example: Example Ltd">
+
+        <label for="job-url">Job or company link <span>(optional)</span></label>
+        <input id="job-url" name="jobUrl" type="url" placeholder="https://example.com/careers">
+
+        <label for="job-text">Job description or offer message</label>
+        <textarea id="job-text" name="jobText" placeholder="Paste the job ad or message here"></textarea>
+
+        <div class="job-submit-row">
+          <button type="submit">Review this offer <span aria-hidden="true">→</span></button>
+        </div>
+        <p class="privacy-note">
+          Don’t paste passwords, one-time codes, identity documents, or payment details.
+        </p>
+      </form>
+
+      <div class="quick-steps" aria-label="How to use this check">
+        <span><b>01</b> Share offer details</span>
+        <span class="step-arrow" aria-hidden="true">→</span>
+        <span><b>02</b> Review warning signs</span>
+        <span class="step-arrow" aria-hidden="true">→</span>
+        <span><b>03</b> Verify independently</span>
+      </div>
+      <p class="safety-note">
+        This text review cannot prove an employer or job offer is genuine. Verify the
+        opening through the company’s official website.
+      </p>
+    </section>
+
+    <section id="result" class="result-section" aria-labelledby="result-title" aria-live="polite" hidden>
+      <div class="result-heading">
+        <p class="eyebrow">YOUR OFFER REVIEW</p>
+      </div>
+      <h2 id="result-title" class="job-result-title"></h2>
+      <p id="result-summary" class="result-summary"></p>
+      <div class="result-details">
+        <div class="detail-card">
+          <h3>Warning signs to review</h3>
+          <ul id="warning-list"></ul>
+        </div>
+        <div class="detail-card next-step-card">
+          <h3>Verification notes and next step</h3>
+          <p id="company-note"></p>
+          <p id="job-url-note" class="check-status"></p>
+          <p id="next-step" class="job-next-step"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works" aria-labelledby="how-title">
+      <div class="section-heading">
+        <p class="eyebrow">A CLEARER WAY TO CHECK</p>
+        <h2 id="how-title">How this review works</h2>
+      </div>
+      <ol class="steps-list">
+        <li>
+          <span class="step-number">01</span>
+          <div><h3>Share the offer details</h3><p>Enter a company name, link, or paste the job message.</p></div>
+        </li>
+        <li>
+          <span class="step-number">02</span>
+          <div><h3>Review possible warning signs</h3><p>Look for requests for fees, sensitive information, or unrealistic promises.</p></div>
+        </li>
+        <li>
+          <span class="step-number">03</span>
+          <div><h3>Verify independently</h3><p>Compare the offer with the company’s official careers page and contact details.</p></div>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="current-year">2026</span> VeriRadar</p>
+    <p>A warning review, not a guarantee of safety or authenticity.</p>
+  </footer>
+
+  <script>
+  const form = document.querySelector("#job-form");
+  const companyInput = document.querySelector("#company");
+  const jobUrlInput = document.querySelector("#job-url");
+  const jobTextInput = document.querySelector("#job-text");
+  const result = document.querySelector("#result");
+  const resultTitle = document.querySelector("#result-title");
+  const resultSummary = document.querySelector("#result-summary");
+  const warningList = document.querySelector("#warning-list");
+  const companyNote = document.querySelector("#company-note");
+  const jobUrlNote = document.querySelector("#job-url-note");
+  const nextStep = document.querySelector("#next-step");
+  const submitButton = form.querySelector('button[type="submit"]');
+  const originalButtonText = submitButton.innerHTML;
+  const apiBase = location.port === "5500" ? "http://localhost:3000" : "";
+
+  document.querySelector("#current-year").textContent = new Date().getFullYear();
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const payload = {
+      company: companyInput.value.trim(),
+      url: jobUrlInput.value.trim(),
+      text: jobTextInput.value.trim()
+    };
+
+    if (!payload.company && !payload.url && !payload.text) {
+      alert("Enter a company name, a job link, or paste the job offer.");
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Checking offer…";
+
+    try {
+      const response = await fetch(`${apiBase}/api/analyze-job`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || "The offer check could not be completed.");
+      }
+
+      resultTitle.textContent = data.title;
+      resultTitle.className = "job-result-title " +
+        (data.level === "high" ? "high" : data.level === "caution" ? "warning" : "unknown");
+      resultSummary.textContent = data.summary;
+      warningList.replaceChildren();
+      for (const reason of data.reasons || []) {
+        const item = document.createElement("li");
+        item.textContent = reason;
+        warningList.append(item);
+      }
+
+      companyNote.textContent = data.companyNote || "";
+      jobUrlNote.textContent = data.urlNote || "";
+      nextStep.textContent = data.nextStep || "";
+      result.hidden = false;
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (error) {
+      resultTitle.textContent = "Could not reach the VeriRadar backend";
+      resultTitle.className = "job-result-title warning";
+      resultSummary.textContent =
+        error.message || "Start the backend, then submit this offer again.";
+      warningList.replaceChildren();
+      companyNote.textContent = "The offer was not analyzed by the backend.";
+      jobUrlNote.textContent = "Check the VeriRadar server connection, then try again.";
+      nextStep.textContent = location.port === "5500"
+        ? "If you are running VeriRadar locally, open a terminal in the backend folder and run: node server.js"
+        : "The hosted service may still be starting. Wait briefly and try again; if the issue continues, check the service logs.";
+      result.hidden = false;
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    } finally {
+      submitButton.disabled = false;
+      submitButton.innerHTML = originalButtonText;
+    }
+  });
+</script>
+</body>
+</html>
+
