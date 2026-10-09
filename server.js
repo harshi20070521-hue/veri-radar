@@ -8,7 +8,7 @@ const { getCachedCheck, saveCheck } = require("./database");
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
-const frontendDirectory = path.join(__dirname, "..");
+const frontendDirectory = __dirname;
 
 app.use(cors({
   origin: ["http://localhost:5500", "http://127.0.0.1:5500"]
