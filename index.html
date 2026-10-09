@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Check a link for warning signs and get a clear explanation before you click.">
+  <title>VeriRadar — Understand a link before you trust it</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="VeriRadar home">
+      <span class="brand-mark" aria-hidden="true">V</span>
+      <span class="brand-name">VeriRadar</span>
+      <span class="brand-tagline">LINK CHECKER</span>
+    </a>
+    <nav class="site-links" aria-label="Main navigation">
+      <a href="index.html" aria-current="page">Link Check</a>
+      <a href="company-check.html">Company &amp; Job Check</a>
+    </nav>
+    <p class="header-note">
+      <span class="status-dot" aria-hidden="true"></span>
+      Clear answers. Safer choices.
+    </p>
+  </header>
+
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">PAUSE BEFORE YOU CLICK</p>
+      <h1 id="page-title">Not sure about a link?</h1>
+      <p class="hero-copy">
+        Paste it here. VeriRadar looks for warning signs, explains what they mean,
+        and suggests a safer next step.
+      </p>
+      <form id="scan-form" class="scan-card">
+        <label for="url-input">Link you want to check</label>
+        <div class="input-row">
+          <input
+            id="url-input"
+            name="url"
+            type="url"
+            inputmode="url"
+            placeholder="https://example.com"
+            autocomplete="url"
+            required
+            aria-describedby="privacy-note"
+          >
+          <button id="scan-button" type="submit">
+            Check this link <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <p id="privacy-note" class="privacy-note">
+          Only check links you choose to paste. Don’t enter passwords or payment details here.
+        </p>
+      </form>
+      <div class="quick-steps" aria-label="How to use VeriRadar">
+        <span><b>01</b> Paste a link</span>
+        <span class="step-arrow" aria-hidden="true">→</span>
+        <span><b>02</b> See the warning signs</span>
+        <span class="step-arrow" aria-hidden="true">→</span>
+        <span><b>03</b> Choose a safer next step</span>
+      </div>
+      <p class="safety-note">
+        VeriRadar gives a risk estimate, not a guarantee. When in doubt, visit the
+        organization’s official website directly.
+      </p>
+    </section>
+
+    <section
+      id="result-section"
+      class="result-section"
+      aria-labelledby="result-title"
+      aria-live="polite"
+      hidden
+    >
+      <div class="result-heading">
+        <p class="eyebrow">YOUR LINK CHECK</p>
+        <span id="risk-badge" class="risk-badge">CHECKING</span>
+      </div>
+      <h2 id="result-title">Here’s what VeriRadar found</h2>
+      <p id="result-summary" class="result-summary"></p>
+      <div id="platform-notice" class="platform-notice" hidden>
+        <span class="platform-notice-icon" aria-hidden="true">!</span>
+        <div>
+          <strong id="platform-notice-title"></strong>
+          <p id="platform-notice-copy"></p>
+        </div>
+      </div>
+      <div class="result-details">
+        <div class="detail-card">
+          <h3>Why this result?</h3>
+          <ul id="warning-list"></ul>
+        </div>
+        <div class="detail-card next-step-card">
+          <h3>A safer next step</h3>
+          <p id="safer-step"></p>
+        </div>
+      </div>
+      <p id="check-status" class="check-status"></p>
+    </section>
+
+    <section class="how-it-works" aria-labelledby="how-title">
+      <div class="section-heading">
+        <p class="eyebrow">SIMPLE AND CLEAR</p>
+        <h2 id="how-title">How VeriRadar helps</h2>
+      </div>
+      <ol class="steps-list">
+        <li>
+          <span class="step-number">01</span>
+          <div><h3>Paste a link</h3><p>Check only the URL you choose to share with VeriRadar.</p></div>
+        </li>
+        <li>
+          <span class="step-number">02</span>
+          <div><h3>See the warning signs</h3><p>Get a plain-language explanation of anything that looks unusual.</p></div>
+        </li>
+        <li>
+          <span class="step-number">03</span>
+          <div><h3>Choose what to do</h3><p>Use a safer next step before you click, sign in, or pay.</p></div>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="current-year">2026</span> VeriRadar</p>
+    <p>Think carefully before sharing personal information online.</p>
+  </footer>
+</body>
+</html>
