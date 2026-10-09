@@ -1,6 +1,6 @@
 # VeriRadar
 Check a website link or job offer for possible warning signs before you trust it.
-Live demo:
+Live demo:https://veri-radar.onrender.com
 ## What VeriRadar does
 - Checks website links against Google Safe Browsing’s known threat data.
 - Reviews pasted job offers for common scam warning signs, such as requests for fees or sensitive information.
